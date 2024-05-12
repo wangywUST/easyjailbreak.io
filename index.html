@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DERZX1PWZ4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-DERZX1PWZ4');
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="description" content="DeepEdit: Knowledge Editing as Decoding with Constraints">
+  <meta name="keywords"
+    content="Knowledge Editing, Constrained Decoding, Large Language Models, GPT">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepEdit: Knowledge Editing as Decoding with Constraints</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MFCT45H');</script>
+  <!-- End Google Tag Manager -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/tifa.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MFCT45H" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+
+  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://yushi-hu.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://finegrainedrlhf.github.io/">
+            Fine-Grained RLHF
+          </a>
+          <a class="navbar-item" href="https://yushi-hu.github.io/promptcap_demo/">
+            PromptCap
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <span class="big-emoji">&#x270D;</span>
+              DeepEdit: Knowledge Editing as Decoding with Constraints
+            </h1>
+            <div class="is-size-5">
+              <span class="author-block">
+                <a href="https://wangywust.github.io/" style="color:#008AD7;font-weight:normal;">Yiwei Wang</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://muhaochen.github.io/" style="color:#f68946;font-weight:normal;">Muhao Chen</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://vnpeng.net/" style="color:#008AD7;font-weight:normal;">Nanyun Peng</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://web.cs.ucla.edu/~kwchang/" style="color:#008AD7;font-weight:normal;">Kai-Wei Chang</a><sup>1</sup>,
+              </span>
+            </div>
+  
+            <br>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><b style="color:#008AD7; font-weight:normal">▶ </b>University of California, Los Angeles</span>
+              <span class="author-block"><b style="color:#f68946; font-weight:normal">▶ </b>University of California, Davis</span>
+            </div>
+
+            
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <!-- PDF Link. -->
+                  <span class="link-block">
+                    <a href="https://arxiv.org/abs/2401.10471v2" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+
+              <!-- code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/wangywUST/DeepEdit" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+    
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle">
+          <div class="content has-text-justified">
+  We propose <b>DeepEdit</b> ✍, a new knowledge editing method that can be applied to all black-box large language models (LLMs) without retraining. 
+  DeepEdit conducts knowledge editing by applying the semantic constraints to the decoding of LLMs. Two examples of the LLMs' text generation with our DeepEdit and the baseline method MeLLo are shown below.
+</b>
+      <!-- <center><img src="./static/images/frame.gif" alt="teaser"></center> -->
+      <center><img src="./static/images/fig_11.png" alt="teaser" width="100%"></center>
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          We propose a new perspective of knowledge editing (KE) for large language models (LLMs) that treats it as a constrained decoding problem. We design decoding constraints to regulate LLMs, <b>ensuring coherence between reasoning steps when incorporating new knowledge</b>. To enforce these constraints, we utilize a <b>depth-first search to adaptively substitute new knowledge for the LLMs' original reasoning steps</b>, greedily seeking the optimal path of multi-hop reasoning with new knowledge. From this vantage, <b>we propose DEEPEDIT: Depth-first Search-based Decoding for Knowledge Editing</b>. DEEPEDIT improves the KE of LLMs by enhancing the <b>conciseness, coherence, pertinence, and receptiveness</b> of reasoning with new knowledge. DEEPEDIT is flexibly <b>applicable to any black-box LLM</b> without requiring access to model parameters or token-wise distributions. In addition to DEEPEDIT, we propose <b>two new KE benchmarks: MQuAKE-2002 and MQuAKE-hard</b> 🏁 , which are designed to provide <b>more precise and challenging assessments</b> of KE approaches. Qualitatively, DEEPEDIT enables LLMs to produce more succinct reasoning outputs in accordance with new knowledge. Quantitatively, it yields significant improvements on multiple KE benchmarks.
+              
+              <center><img src="./static/images/fig_17.png" alt="teaser" width="50%"></center>
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">New Benchmarks for Knowledge Editing</h2>
+        <div class="content has-text-justified">
+          <p>
+          We provide two new benchmarks for the evaluation of KE methods: <b>MQuAKE-2002 and MQuAKE-hard</b>🏁. Both are built based on the MQuAKE (Zhong et al., 2023), a recent KE dataset that is designed to evaluate the KE methods on helping LLMs to answer multi-hop questions given new knowledge. Every instance in MQuAKE includes a multi-hop question and one to four related edited facts, every of which can alter the ground-truth answer to the question. Zhong et al. (2023) suggests using a randomly sampled 3,000 instance subset of MQuAKE to do the evaluation, which reduces the experimental costs. This evaluation benchmark is termed as MQuAKE-3k.
+        </p>
+
+        <p>
+          <strong> Annotation Mistakes in One-Third Instances of MQuAKE-3k.</strong><br>
+          There are two issues of using MQuAKE-3k to evaluate KE methods. The first issue is that the new knowledge from different instances MQuAKE-3k can cause conflicts and mistakes to the ground-truth answers. In other words, <b>the ground-truth answer from instance A can be altered by the new knowledge from another instance B.</b> We show an example of knowledge conflicts in MQuAKE-3k in the below Figure. These knowledge conflicts will make the ground-truth answers incorrect given the new knowledge that are conflicted with the answers because the inference on every instance would retrieve the new knowledge from all instances. <b>We observe that 998 instances' ground-truth answers are broken by the new knowledge from other instances.</b>❗
+        </p>
+
+        <center><img src="./static/images/fig_21.png" alt="teaser" width="80%"></center>
+          
+        <p>
+          <strong> New Benchmark MQuAKE-2002 for More Precise Evaluation.</strong><br>
+          To address the issue of annotation mistakes in MQuAKE-3k, we provide a new subset of MQuAKE-3k, which does not have any knowledge conflict across instances. This subset includes 2,002 instances, so we term it as MQuAKE-2002. <b>We filter out the instances of which the ground-truth answers are broken by the new knowledge from other instances to produce MQuAKE-2002</b>. Compared with MQuAKE-3k, our MQuAKE-2002 provides a more precise evaluation for knowledge editing methods, since it removes the annotation mistakes due to knowledge conflicts across instances. The data statistics of MQuAKE-2002 are provided in the below Table.  
+        </p>
+
+        <p>
+          <strong> New Benchmark MQuAKE-hard for More Challenging Evaluation.</strong><br>
+          The second issue of MQuAKE-3k is that more than 66% instances in MQuAKE-3k only contain at most two edited facts that influence the answers, which are not challenging enough to evaluate the knowledge editing methods on handling multiple edited facts that can alter the ground-truth reasons. We construct a more challenging subset of MQuAKE by selecting the instances that contain the highest number of edited facts per instance. We term this challenging set as MQuAKE-hard, which includes 429 instances and every instance contains four edited facts. MQuAKE-hard has no overlap with MQuAKE-3k. <b>We term this challenging set as MQuAKE-hard, which includes 429 instances and every instance contains four edited facts.</b> MQuAKE-hard has no overlap with MQuAKE-3k. The data statistics of MQuAKE-hard are also provided in the below Table.
+        </p>
+
+        <style>
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          table,
+          th,
+          td {
+            border: 1px solid black;
+          }
+
+          th,
+          td {
+            padding: 8px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #f2f2f2;
+          }
+        </style>
+      </head>
+
+      <body>
+
+        <table>
+          <caption><b style="color: red;">Data statistics of different benchmarks. # Conflicted Instances represent the number of instances of which the ground-truth labels are affected by the new knowledge from other instances. An example is shown in the above Figure. </caption>
+          <thead> <tr> <th><strong>Benchmark</strong></th> <th># Instances</th> <th># Hops per Instance</th> <th># Edited Facts per Instance</th> <th># Conflicted Instances</th> </tr> </thead> <tbody> <tr> <td>MQuAKE-3k [Zhong et al., 2023]</td> <td>3,000</td> <td>3.0</td> <td>2.0</td> <td>998</td> </tr> <tr> <td>MQuAKE-2002 (Ours)</td> <td>2,002</td> <td>2.7</td> <td>2.2</td> <td>0</td> </tr> <tr> <td>MQuAKE-hard (Ours)</td> <td>429</td> <td>4.0</td> <td>4.0</td> <td>0</td> </tr> </tbody> 
+        </table>
+
+      </body>
+
+<a href="https://arxiv.org/abs/2401.10471" target="_blank">See more details in our paper</a>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Designing Decoding Constraints for Knowledge Editing</h2>
+        <div class="content has-text-justified">
+          <p>
+            <strong>The central idea is to view knowledge editing as a problem of decoding with constraints.</strong><br>
+            We propose to impose semantic constraints on the LLMs' outputs to represent the desired properties that benefit knowledge editing.
+            Specifically, we propose the following constraints: <strong>Conciseness</strong> <span>&#128205;</span> prevents the redundant loops of reasoning; <strong>Coherence</strong> <span>&#128062;</span>  guarantees the coherence of adjacent steps; <strong>Receptiveness</strong> <span>&#128161;</span> guarantees the LLMs' awareness of new knowledge; <strong>Pertinence</strong> <span>&#128588;</span> improves the relevance of reasoning to the input question.
+            These constraints improve LLMs’ reasoning with new knowledge from different perspectives as a whole.
+        </p>
+
+        <center><img src="./static/images/fig_10.png" alt="teaser" width="100%"></center>
+          
+
+<a href="https://arxiv.org/abs/2401.10471" target="_blank">See more details in our paper</a>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" id="privacy-auditing">Decoding at The Reasoning Step Level</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this work, we change the granularity of decoding from the token level to the reasoning step level. Our decoding is designed at the step level: instead of taking the tokens predefined in a fixed vocabulary as the candidates, we take the reasoning steps as the candidates. At every iteration, we let LLMs to produce one reasoning step and retrieve a fixed number of new facts in parallel to the reasoning step as the step candidates. The new fact retrieval is based on the nearest neighbor search with the sentence-level embeddings given by BERT. The motivation of this design is that the new facts that are semantically close to the generated facts are more likely to satisfy the constraints. 
+          </p>
+
+          <p>
+            Taking the single generated step and the new facts as the step candidates, we filter a valid candidate and take it as the new reasoning step. Note that there may exist more than one candidates that satisfy the constraints. We will introduce how we design the decoding constraints for KE in Section 3.2, how we verify the constraints in Section 3.3 and Section 3.4, and how we process the multiple valid step candidates to search for the optimal path of LLMs' multi-hop reasoning in Section 3.5. 
+          </p>
+
+          <p>
+            <b>Our decoding design bypasses the requirement of accessing the token-wise distributions, since all the decoding actions are defined over the step level. Our decoding strategy is free to be applied to black-box LLMs in order to produce satisfactory outputs in accordance with new knowledge.</b>
+          </p>
+          <p>
+            <img src="./static/images/fig_18.png"
+              alt="Graph depicting the process of unlearning Harry Potter content">
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" id="privacy-auditing">Local Constraint Verifier</h2>
+        <div class="content has-text-justified">
+          <p>
+            We store the candidates that satisfy the local verifier ⚖ in a stack for further use. 
+            Instead of simply retaining only one candidate, we store all the candidates in the stack 📚, since we have the global verifier that has to verify the reasoning steps from the whole reasoning process.
+            The correctness of a reasoning step has to be finally decided by the global verifier. 
+          </p>
+          <p>
+            <img src="./static/images/fig_15.png"
+              alt="Graph depicting the process of unlearning Harry Potter content">
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" id="privacy-auditing">Global Constraint Verifier</h2>
+        <div class="content has-text-justified">
+          <p>
+            The global verifier ⚖ determines the feasibility of the whole reasoning process by checking whether the answer is found.
+            If not feasible, we pop the status stack 📚 to use another reasoning subprocess that satisfies the local verifier. 
+          </p>
+          <p>
+            <img src="./static/images/fig_16.png"
+              alt="Graph depicting the process of unlearning Harry Potter content">
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <!-- <h2 class="title is-3" id="copyrighted-detection">Copyrighted Book Detection</h2> -->
+        <h2 class="title is-3" id="copyrighted-detection">Performance of Knowledge Editing</h2>
+        <div class="content has-text-justified">
+
+        <!-- <title>Top 20 Copyrighted Books in GPT-3's (text-davinci-003) Pretraining Data detected by Min-K% Prob</title> -->
+        <style>
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          table,
+          th,
+          td {
+            border: 1px solid black;
+          }
+
+          th,
+          td {
+            padding: 8px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #f2f2f2;
+          }
+        </style>
+      </head>
+
+      <body>
+
+        <table>
+          <caption><b style="color: red;">Experimental results (accuracy; %) on the dataset MQuAKE-3k with the KE batch size of 100. </caption>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>MQuAKE-3k</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>text-davinci-003 w/ MeLLo </td>
+              <td>32.2</td>
+            </tr>
+            <tr>
+              <td>text-davinci-003 w/ <strong>DEEPEDIT (Ours)</strong></td>
+              <td><strong>49.1</strong></td>
+            </tr>
+            <tr>
+              <td>gpt-3.5-turbo-instruct w/ MeLLo </td>
+              <td>29.9</td>
+            </tr>
+            <tr>
+              <td>gpt-3.5-turbo-instruct w/ <strong>DEEPEDIT (Ours)</strong></td>
+              <td><strong>47.2</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </body>
+
+
+          <p>
+            <img src="./static/images/fig_19.png"
+              alt="Graph depicting the process of unlearning Harry Potter content">
+          </p>
+
+          <p>
+            <img src="./static/images/fig_20.png"
+              alt="Graph depicting the process of unlearning Harry Potter content">
+          </p>
+
+      </html>
+
+    </div>
+  </div>
+</section>
+
+
+      <section class="section is-light" id="BibTeX">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <pre><code>
+@misc{wang2024deepedit,
+title={DeepEdit: Knowledge Editing as Decoding with Constraints},
+author={Yiwei Wang and Muhao Chen and Nanyun Peng and Kai-Wei Chang},
+year={2024},
+eprint={2401.10471},
+archivePrefix={arXiv},
+primaryClass={cs.CL}
+}
+</code></pre>
+        </div>
+      </section>
+
+
+
+      <footer class="footer">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <div class="content">
+                <p>
+                  This website is licensed under a <a rel="license"
+                    href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                    Commons Attribution-ShareAlike 4.0 International License</a>.
+                </p>
+                <p>
+                  This means you are free to borrow the <a href="https://github.com/nerfies/nerfies.github.io">source
+                    code</a> of this website,
+                  we just ask that you link back to this page in the footer.
+                  Please remember to remove the analytics code included in the header of the website which
+                  you do not want on your website.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+</body>
+
+</html>
