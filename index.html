@@ -174,8 +174,13 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-          We propose a new perspective of knowledge editing (KE) for large language models (LLMs) that treats it as a constrained decoding problem. We design decoding constraints to regulate LLMs, <b>ensuring coherence between reasoning steps when incorporating new knowledge</b>. To enforce these constraints, we utilize a <b>depth-first search to adaptively substitute new knowledge for the LLMs' original reasoning steps</b>, greedily seeking the optimal path of multi-hop reasoning with new knowledge. From this vantage, <b>we propose DEEPEDIT: Depth-first Search-based Decoding for Knowledge Editing</b>. DEEPEDIT improves the KE of LLMs by enhancing the <b>conciseness, coherence, pertinence, and receptiveness</b> of reasoning with new knowledge. DEEPEDIT is flexibly <b>applicable to any black-box LLM</b> without requiring access to model parameters or token-wise distributions. In addition to DEEPEDIT, we propose <b>two new KE benchmarks: MQuAKE-2002 and MQuAKE-hard</b> 🏁 , which are designed to provide <b>more precise and challenging assessments</b> of KE approaches. Qualitatively, DEEPEDIT enables LLMs to produce more succinct reasoning outputs in accordance with new knowledge. Quantitatively, it yields significant improvements on multiple KE benchmarks.
-              
+          Recent research has devoted significant effort to identifying security vulnerabilities in large language models (LLMs). These vulnerabilities may enable malicious entities to manipulate LLMs to produce harmful outputs, a.k.a., jailbreaks.
+          
+          Most previous work on jailbreak attacks focuses on designing adversarial input prompts based on costly optimization methods. Different from them, we identify significant security risks associated with attacks on the output side. In particular, we propose two output prefix jailbreak attacks that can effectively disrupt model alignment: Opra and OpraTea.
+          
+          Opra enforces the output prefix of LLMs to follow a "fuse", a probed template that expresses positive attitudes towards addressing the input question, even when the user has malicious intent. OpraTea hides the malicious target within the input prompt to bypass the "content filter" designed to detect and block malicious inputs. Both methods are simple yet threaten the security of LLMs because (1) they do not require any expensive optimization or parameter search; (2) the setting up and execution of our methods only requires a single LLM inference; and (3) they can operate on any black-box LLMs.
+
+          Empirically, Opra and OpraTea increase the misalignment rate in popular LLMs, achieving a higher successful rate than the baseline with 1000x lower computational cost.              
               <center><img src="./static/images/fig_1.png" alt="teaser" width="50%"></center>
           </p>
 
