@@ -157,7 +157,7 @@
       <h2 class="subtitle">
           <div class="content has-text-justified">
   We propose <b>Opra</b> and <b>OpraTea</b> 🆘, two novel, effective, and extremely simple jailbreak methods that can attack all large language models (LLMs) without expensive optimization or parameter search. 
-</b>
+<br><br><br>
       <!-- <center><img src="./static/images/frame.gif" alt="teaser"></center> -->
       <center><img src="./static/images/fig_1.jpg" alt="teaser" width="100%"></center>
       
@@ -174,13 +174,13 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-          Recent research has devoted significant effort to identifying security vulnerabilities in large language models (LLMs). These vulnerabilities may enable malicious entities to manipulate LLMs to produce harmful outputs, a.k.a., jailbreaks.<br>
+          Recent research has devoted significant effort to identifying security vulnerabilities in large language models (LLMs). These vulnerabilities may enable malicious entities to manipulate LLMs to produce harmful outputs, a.k.a., jailbreaks.<br><br>
           
-          Most previous work on jailbreak attacks focuses on designing adversarial input prompts based on costly optimization methods. Different from them, we identify significant security risks associated with attacks on the output side. In particular, we propose two output prefix jailbreak attacks that can effectively disrupt model alignment: Opra and OpraTea.<br>
+          Most previous work on jailbreak attacks focuses on designing adversarial input prompts based on costly optimization methods. Different from them, we identify significant security risks associated with attacks on the output side. In particular, we propose two output prefix jailbreak attacks that can effectively disrupt model alignment: Opra and OpraTea.<br><br>
           
-          Opra enforces the output prefix of LLMs to follow a "fuse", a probed template that expresses positive attitudes towards addressing the input question, even when the user has malicious intent. OpraTea hides the malicious target within the input prompt to bypass the "content filter" designed to detect and block malicious inputs. Both methods are simple yet threaten the security of LLMs because (1) they do not require any expensive optimization or parameter search; (2) the setting up and execution of our methods only requires a single LLM inference; and (3) they can operate on any black-box LLMs.<br>
+          Opra enforces the output prefix of LLMs to follow a "fuse", a probed template that expresses positive attitudes towards addressing the input question, even when the user has malicious intent. OpraTea hides the malicious target within the input prompt to bypass the "content filter" designed to detect and block malicious inputs. Both methods are simple yet threaten the security of LLMs because (1) they do not require any expensive optimization or parameter search; (2) the setting up and execution of our methods only requires a single LLM inference; and (3) they can operate on any black-box LLMs.<br><br>
 
-          Empirically, Opra and OpraTea increase the misalignment rate in popular LLMs, achieving a higher successful rate than the baseline with 1000x lower computational cost.<br>              
+          Empirically, Opra and OpraTea increase the misalignment rate in popular LLMs, achieving a higher successful rate than the baseline with 1000x lower computational cost.<br>  <br>            
               <center><img src="./static/images/fig_1.png" alt="teaser" width="50%"></center>
           </p>
 
