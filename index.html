@@ -196,10 +196,14 @@
     <!-- Abstract -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">New Benchmarks for Knowledge Editing</h2>
+        <h2 class="title is-3">A New Family of LLMs' Jailbreak Attacks</h2>
         <div class="content has-text-justified">
           <p>
-          We provide two new benchmarks for the evaluation of KE methods: <b>MQuAKE-2002 and MQuAKE-hard</b>🏁. Both are built based on the MQuAKE (Zhong et al., 2023), a recent KE dataset that is designed to evaluate the KE methods on helping LLMs to answer multi-hop questions given new knowledge. Every instance in MQuAKE includes a multi-hop question and one to four related edited facts, every of which can alter the ground-truth answer to the question. Zhong et al. (2023) suggests using a randomly sampled 3,000 instance subset of MQuAKE to do the evaluation, which reduces the experimental costs. This evaluation benchmark is termed as MQuAKE-3k.
+          In this paper, we investigate a new family of jailbreak methods, Output Prefix Attacks, that manipulates the prefix of LLMs' output. 
+          Our output attacks are simpler, more efficient, and more effective than prior jailbreak approaches, posing a substantial security risk to LLMs.
+          Our research is inspired by the observation that LLMs tend to generate informative responses when the output prefix conveys a willingness to follow the user's instructions or answer the user's questions. (see Fig. \ref{fig:example}).
+          This raises a research question:
+          If we enforce a positive attitude in the LLM's output prefix, will the LLM be more likely to generate unauthorized responses to malicious user inputs?
         </p>
 
         <p>
