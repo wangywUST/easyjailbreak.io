@@ -221,16 +221,16 @@
     <!-- Abstract -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Designing Decoding Constraints for Knowledge Editing</h2>
+        <h2 class="title is-3">Simple, Efficient and Effective Attack</h2>
         <div class="content has-text-justified">
           <p>
-            <strong>The central idea is to view knowledge editing as a problem of decoding with constraints.</strong><br>
-            We propose to impose semantic constraints on the LLMs' outputs to represent the desired properties that benefit knowledge editing.
-            Specifically, we propose the following constraints: <strong>Conciseness</strong> <span>&#128205;</span> prevents the redundant loops of reasoning; <strong>Coherence</strong> <span>&#128062;</span>  guarantees the coherence of adjacent steps; <strong>Receptiveness</strong> <span>&#128161;</span> guarantees the LLMs' awareness of new knowledge; <strong>Pertinence</strong> <span>&#128588;</span> improves the relevance of reasoning to the input question.
-            These constraints improve LLMs’ reasoning with new knowledge from different perspectives as a whole.
+            To systematically evaluate our approach, we apply jailbreaks on LLMs spanning both the open-source and closed-source LLMs.
+            We conduct the empirical evaluation on two popular jailbreak benchmarks, MaliciousInstruct and AdvBench, which cover a broad spectrum of malicious intents to enhance the diversity of scenarios.
+            Empirical results show that our Opra and OpraTea achieve higher attack successful rates than the strong jailbreak baselines with 1,000x lower computational costs.
+            The human evaluation further suggests that of the unauthorized responses, at least 80% actually contain harmful instructions.
         </p>
 
-        <center><img src="./static/images/fig_10.png" alt="teaser" width="100%"></center>
+        <center><img src="./static/images/fig_4.png" alt="teaser" width="100%"></center>
           
 
 <a href="https://arxiv.org/abs/2401.10471" target="_blank">See more details in our paper</a>
@@ -242,172 +242,14 @@
 </section>
 
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3" id="privacy-auditing">Decoding at The Reasoning Step Level</h2>
-        <div class="content has-text-justified">
-          <p>
-            In this work, we change the granularity of decoding from the token level to the reasoning step level. Our decoding is designed at the step level: instead of taking the tokens predefined in a fixed vocabulary as the candidates, we take the reasoning steps as the candidates. At every iteration, we let LLMs to produce one reasoning step and retrieve a fixed number of new facts in parallel to the reasoning step as the step candidates. The new fact retrieval is based on the nearest neighbor search with the sentence-level embeddings given by BERT. The motivation of this design is that the new facts that are semantically close to the generated facts are more likely to satisfy the constraints. 
-          </p>
-
-          <p>
-            Taking the single generated step and the new facts as the step candidates, we filter a valid candidate and take it as the new reasoning step. Note that there may exist more than one candidates that satisfy the constraints. We will introduce how we design the decoding constraints for KE in Section 3.2, how we verify the constraints in Section 3.3 and Section 3.4, and how we process the multiple valid step candidates to search for the optimal path of LLMs' multi-hop reasoning in Section 3.5. 
-          </p>
-
-          <p>
-            <b>Our decoding design bypasses the requirement of accessing the token-wise distributions, since all the decoding actions are defined over the step level. Our decoding strategy is free to be applied to black-box LLMs in order to produce satisfactory outputs in accordance with new knowledge.</b>
-          </p>
-          <p>
-            <img src="./static/images/fig_18.png"
-              alt="Graph depicting the process of unlearning Harry Potter content">
-          </p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3" id="privacy-auditing">Local Constraint Verifier</h2>
-        <div class="content has-text-justified">
-          <p>
-            We store the candidates that satisfy the local verifier ⚖ in a stack for further use. 
-            Instead of simply retaining only one candidate, we store all the candidates in the stack 📚, since we have the global verifier that has to verify the reasoning steps from the whole reasoning process.
-            The correctness of a reasoning step has to be finally decided by the global verifier. 
-          </p>
-          <p>
-            <img src="./static/images/fig_15.png"
-              alt="Graph depicting the process of unlearning Harry Potter content">
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3" id="privacy-auditing">Global Constraint Verifier</h2>
-        <div class="content has-text-justified">
-          <p>
-            The global verifier ⚖ determines the feasibility of the whole reasoning process by checking whether the answer is found.
-            If not feasible, we pop the status stack 📚 to use another reasoning subprocess that satisfies the local verifier. 
-          </p>
-          <p>
-            <img src="./static/images/fig_16.png"
-              alt="Graph depicting the process of unlearning Harry Potter content">
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <!-- <h2 class="title is-3" id="copyrighted-detection">Copyrighted Book Detection</h2> -->
-        <h2 class="title is-3" id="copyrighted-detection">Performance of Knowledge Editing</h2>
-        <div class="content has-text-justified">
-
-        <!-- <title>Top 20 Copyrighted Books in GPT-3's (text-davinci-003) Pretraining Data detected by Min-K% Prob</title> -->
-        <style>
-          table {
-            width: 100%;
-            border-collapse: collapse;
-          }
-
-          table,
-          th,
-          td {
-            border: 1px solid black;
-          }
-
-          th,
-          td {
-            padding: 8px;
-            text-align: left;
-          }
-
-          th {
-            background-color: #f2f2f2;
-          }
-        </style>
-      </head>
-
-      <body>
-
-        <table>
-          <caption><b style="color: red;">Experimental results (accuracy; %) on the dataset MQuAKE-3k with the KE batch size of 100. </caption>
-          <thead>
-            <tr>
-              <th>Method</th>
-              <th>MQuAKE-3k</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>text-davinci-003 w/ MeLLo </td>
-              <td>32.2</td>
-            </tr>
-            <tr>
-              <td>text-davinci-003 w/ <strong>DEEPEDIT (Ours)</strong></td>
-              <td><strong>49.1</strong></td>
-            </tr>
-            <tr>
-              <td>gpt-3.5-turbo-instruct w/ MeLLo </td>
-              <td>29.9</td>
-            </tr>
-            <tr>
-              <td>gpt-3.5-turbo-instruct w/ <strong>DEEPEDIT (Ours)</strong></td>
-              <td><strong>47.2</strong></td>
-            </tr>
-          </tbody>
-        </table>
-
-      </body>
-
-
-          <p>
-            <img src="./static/images/fig_19.png"
-              alt="Graph depicting the process of unlearning Harry Potter content">
-          </p>
-
-          <p>
-            <img src="./static/images/fig_20.png"
-              alt="Graph depicting the process of unlearning Harry Potter content">
-          </p>
-
-      </html>
-
-    </div>
-  </div>
-</section>
-
-
       <section class="section is-light" id="BibTeX">
         <div class="container is-max-desktop content">
           <h2 class="title">BibTeX</h2>
           <pre><code>
-@misc{wang2024deepedit,
-title={DeepEdit: Knowledge Editing as Decoding with Constraints},
-author={Yiwei Wang and Muhao Chen and Nanyun Peng and Kai-Wei Chang},
-year={2024},
-eprint={2401.10471},
-archivePrefix={arXiv},
-primaryClass={cs.CL}
+@article{wang2024frustratingly,
+  title={Frustratingly Easy Jailbreak of Large Language Models via Output Prefix Attacks},
+  author={Wang, Yiwei and Chen, Muhao and Peng, Nanyun and Chang, Kai-Wei},
+  year={2024}
 }
 </code></pre>
         </div>
